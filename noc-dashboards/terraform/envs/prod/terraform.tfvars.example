@@ -1,0 +1,19 @@
+# Copy to terraform.tfvars and fill in. Never commit real values (see .gitignore).
+
+databricks_webhook_ids = {
+  on_start   = "DESTINATION_ID_ON_START"
+  on_success = "DESTINATION_ID_ON_SUCCESS"
+  on_failure = "DESTINATION_ID_ON_FAILURE"
+}
+
+# NOC endpoint for Dynatrace problem notifications; leave "" to skip.
+noc_webhook_url = ""
+
+# Base URL for per-pipeline runbooks linked from Datadog monitor messages.
+runbook_base_url = "https://runbooks.example.com"
+
+# Workspace path of the fraud-detection notebook wired to the example job.
+fraud_notebook_path = "/Repos/prod/fraud-detection/score"
+
+enable_dynatrace = true
+enable_datadog   = true
