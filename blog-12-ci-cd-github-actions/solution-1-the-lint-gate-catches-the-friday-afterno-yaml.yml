@@ -1,0 +1,37 @@
+# Blog 12 — CI/CD for Data Pipelines with GitHub Actions
+# Exercise 1: The lint gate catches the Friday-afternoon edit
+# Requires: Everything here runs locally — a repo directory, `ruff`/`pytest`, and YAML files. No workspace needed.
+
+name: pipeline-ci
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: ruff check src/ tests/
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle validate -t ci
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.CI_TOKEN }}
+
+  integration-test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pytest
+      - run: pytest tests/ -v

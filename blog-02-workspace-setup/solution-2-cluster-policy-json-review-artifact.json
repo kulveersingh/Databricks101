@@ -1,0 +1,11 @@
+{
+  "name": "data-eng-standard",
+  "definition": {
+    "num_workers": {"type": "range", "maxValue": 8, "defaultValue": 2},
+    "autotermination_minutes": {"type": "fixed", "value": 30, "hidden": true},
+    "node_type_id": {"type": "allowlist",
+      "values": ["Standard_DS3_v2", "Standard_D4s_v3", "Standard_D8s_v3"],
+      "defaultValue": "Standard_DS3_v2"},
+    "spark_version": {"type": "regex", "pattern": ".*-lts$"}
+  }
+}

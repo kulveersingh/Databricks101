@@ -1,0 +1,37 @@
+# Blog 11 — Databricks Asset Bundles: Infrastructure as Code Done Right
+# Exercise 1: Bundle-ify Priya's returns pipeline
+# Requires: All three exercises run locally — a project directory, YAML files, and a Python checker. No workspace needed.
+
+bundle:
+  name: returns_pipeline
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dev-workspace.cloud.databricks.com
+  staging:
+    mode: development
+    workspace:
+      host: https://staging-workspace.cloud.databricks.com
+  prod:
+    mode: production
+    workspace:
+      host: https://prod-workspace.cloud.databricks.com
+# --- next ---
+
+resources:
+  jobs:
+    nightly_returns:
+      name: "[${bundle.target}] nightly-returns"
+      tasks:
+        - task_key: run_returns
+          notebook_task:
+            notebook_path: ./src/returns_pipeline.py
+      schedule:
+        quartz_cron_expression: "0 0 2 * * ?"
+        timezone_id: "America/New_York"
+      notifications:
+        on_failure:
+          - priya@loopcart.example

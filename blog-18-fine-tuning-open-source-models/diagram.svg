@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980" font-family="DejaVu Sans, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#43544B"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0FA968"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0FA968"/>
+    </marker>
+  <pattern id="ks-pinstripe" width="9" height="9" patternUnits="userSpaceOnUse">
+    <path d="M0,9 L9,0" stroke="#0A3527" stroke-width="1.4" stroke-opacity="0.055"/>
+  </pattern>
+  <pattern id="ks-dotgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="3" cy="3" r="1.7" fill="#0A3527" fill-opacity="0.07"/>
+  </pattern>
+  <filter id="ks-card-shadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0A3527" flood-opacity="0.14"/>
+  </filter>
+</defs>
+
+  <rect x="0" y="0" width="1400" height="980" fill="#FFFFFF"/>
+
+  <text x="700" y="52" text-anchor="middle" font-size="34" font-weight="bold" fill="#1a1a1a">The Fine-Tuning Loop</text>
+  <rect x="640.0" y="68.0" width="120" height="6" rx="3" fill="#C49A1F" data-ks="title-rule"/><text x="700" y="82" text-anchor="middle" font-size="17" fill="#5A6A60">Hugging Face base model → LoRA adapters → evaluated → deployed → improved</text>
+
+  <!-- 1. DATA -->
+  <rect x="40" y="110" width="400" height="330" rx="14" fill="#F0FAF8" stroke="#0E8F8C" stroke-width="2"/>
+  <rect x="40" y="110" width="400" height="330" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="142" font-size="18" font-weight="bold" fill="#0E8F8C">1 · PREPARE DATA</text>
+  <text x="70" y="164" font-size="14" fill="#7E8B82">Curated, versioned, held-out split</text>
+  <g font-size="15" fill="#2F3D36">
+    <rect x="70" y="182" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="210" text-anchor="middle" font-weight="bold">Training set — 7,000 tickets</text>
+    <text x="240" y="232" text-anchor="middle" font-size="13" fill="#64756C">dedupe · spot-check · Delta table</text>
+    <rect x="70" y="272" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="300" text-anchor="middle" font-weight="bold">Held-out set — 1,000 tickets</text>
+    <text x="240" y="322" text-anchor="middle" font-size="13" fill="#64756C">never seen in training</text>
+    <rect x="70" y="362" width="340" height="56" rx="10" fill="#FAF0D7" stroke="#8F6E14"/>
+    <text x="240" y="396" text-anchor="middle" font-size="14" fill="#8F6E14">Smaller clean beats larger dirty</text>
+  </g>
+
+  <!-- 2. TRAIN -->
+  <rect x="490" y="110" width="420" height="330" rx="14" fill="#E9F7F0" stroke="#0FA968" stroke-width="2"/>
+  <rect x="490" y="110" width="420" height="330" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="520" y="142" font-size="18" font-weight="bold" fill="#0FA968">2 · TRAIN (QLoRA)</text>
+  <text x="520" y="164" font-size="14" fill="#7E8B82">Single GPU · base model frozen</text>
+  <g font-size="15" fill="#2F3D36">
+    <rect x="520" y="182" width="360" height="66" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="700" y="208" text-anchor="middle" font-weight="bold">Mistral 7B base (4-bit)</text>
+    <text x="700" y="230" text-anchor="middle" font-size="13" fill="#64756C">from Hugging Face · frozen</text>
+    <rect x="520" y="262" width="360" height="66" rx="10" fill="#FFFFFF" stroke="#0FA968" stroke-width="1.5" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="700" y="288" text-anchor="middle" font-weight="bold">LoRA adapter (r=16)</text>
+    <text x="700" y="310" text-anchor="middle" font-size="13" fill="#64756C">~1% of params trainable</text>
+    <rect x="520" y="342" width="360" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="700" y="368" text-anchor="middle" font-weight="bold">MLflow tracking</text>
+    <text x="700" y="390" text-anchor="middle" font-size="13" fill="#64756C">loss · hyperparams · dataset hash</text>
+  </g>
+  <line x1="440" y1="275" x2="486" y2="275" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 3. EVALUATE -->
+  <rect x="960" y="110" width="400" height="330" rx="14" fill="#F4FAF7" stroke="#0FA968" stroke-width="2"/>
+  <rect x="960" y="110" width="400" height="330" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="990" y="142" font-size="18" font-weight="bold" fill="#0FA968">3 · EVALUATE</text>
+  <text x="990" y="164" font-size="14" fill="#7E8B82">Gate, not suggestion</text>
+  <g font-size="15" fill="#2F3D36">
+    <rect x="990" y="182" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1160" y="210" text-anchor="middle" font-weight="bold">LLM judge on held-out</text>
+    <text x="1160" y="232" text-anchor="middle" font-size="13" fill="#64756C">policy accuracy · tone · completeness</text>
+    <rect x="990" y="272" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1160" y="300" text-anchor="middle" font-weight="bold">Fine-tuned vs base model</text>
+    <text x="1160" y="322" text-anchor="middle" font-size="13" fill="#64756C">did it actually get better?</text>
+    <rect x="990" y="362" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#0FA968" stroke-width="1.5" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1160" y="396" text-anchor="middle" font-size="14" font-weight="bold" fill="#0FA968">PASS → register · FAIL → stop</text>
+  </g>
+  <line x1="910" y1="275" x2="956" y2="275" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 4. DEPLOY -->
+  <rect x="40" y="490" width="1320" height="220" rx="14" fill="#F4FAF7" stroke="#B9C7BE" stroke-width="2"/>
+  <rect x="40" y="490" width="1320" height="220" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="522" font-size="18" font-weight="bold" fill="#43544B">4 · REGISTER &amp; DEPLOY</text>
+  <text x="70" y="544" font-size="14" fill="#7E8B82">The adapter is a small versioned artifact — treat it like code</text>
+  <g font-size="15" fill="#2F3D36">
+    <rect x="70" y="562" width="380" height="110" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="260" y="592" text-anchor="middle" font-weight="bold">Unity Catalog registry</text>
+    <text x="260" y="616" text-anchor="middle" font-size="13" fill="#64756C">adapter v1 + base model ref</text>
+    <text x="260" y="638" text-anchor="middle" font-size="13" fill="#64756C">owner · lineage · grants</text>
+    <rect x="500" y="562" width="380" height="110" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="690" y="592" text-anchor="middle" font-weight="bold">Model Serving A/B</text>
+    <text x="690" y="616" text-anchor="middle" font-size="13" fill="#64756C">10% traffic alongside base</text>
+    <text x="690" y="638" text-anchor="middle" font-size="13" fill="#64756C">ramp on logged quality</text>
+    <rect x="930" y="562" width="400" height="110" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1130" y="592" text-anchor="middle" font-weight="bold">Inference tables</text>
+    <text x="1130" y="616" text-anchor="middle" font-size="13" fill="#64756C">production traffic logged</text>
+    <text x="1130" y="638" text-anchor="middle" font-size="13" fill="#64756C">rewrites → new training data</text>
+  </g>
+  <line x1="450" y1="617" x2="496" y2="617" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="880" y1="617" x2="926" y2="617" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1160" y1="440" x2="1160" y2="486" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 5. LOOP BACK -->
+  <rect x="40" y="760" width="1320" height="160" rx="14" fill="#E9F7F0" stroke="#0FA968" stroke-width="2"/>
+  <rect x="40" y="760" width="1320" height="160" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="792" font-size="18" font-weight="bold" fill="#0FA968">5 · CLOSE THE LOOP</text>
+  <g font-size="15" fill="#2F3D36">
+    <text x="70" y="824">Weekly: agents flag drafts they heavily rewrote → new training examples.</text>
+    <text x="70" y="850">Monthly: re-run the loop. The model compounds — this is the payoff of owning fine-tuning.</text>
+    <text x="70" y="876">Every run logged in MLflow: dataset version, adapter config, held-out scores, chat template.</text>
+  </g>
+  <path d="M 1330 715 L 1330 950 L 20 950 L 20 275 L 36 275" fill="none" stroke="#0FA968" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+  <text x="675" y="942" text-anchor="middle" font-size="14" font-weight="bold" fill="#0FA968">feedback returns to step 1 — the loop compounds</text>
+</svg>

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="940" viewBox="0 0 1400 940" font-family="DejaVu Sans, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#43544B"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0FA968"/>
+    </marker>
+  <pattern id="ks-pinstripe" width="9" height="9" patternUnits="userSpaceOnUse">
+    <path d="M0,9 L9,0" stroke="#0A3527" stroke-width="1.4" stroke-opacity="0.055"/>
+  </pattern>
+  <pattern id="ks-dotgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="3" cy="3" r="1.7" fill="#0A3527" fill-opacity="0.07"/>
+  </pattern>
+  <filter id="ks-card-shadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0A3527" flood-opacity="0.14"/>
+  </filter>
+</defs>
+
+  <rect x="0" y="0" width="1400" height="940" fill="#FFFFFF"/>
+
+  <text x="700" y="52" text-anchor="middle" font-size="34" font-weight="bold" fill="#1a1a1a">Monitoring Architecture for Data Pipelines</text>
+  <rect x="640.0" y="68.0" width="120" height="6" rx="3" fill="#C49A1F" data-ks="title-rule"/><text x="700" y="82" text-anchor="middle" font-size="17" fill="#5A6A60">Don't ask "is the job green" — ask "is the data fresh, sane, and complete"</text>
+
+  <!-- Signal sources -->
+  <rect x="40" y="120" width="400" height="560" rx="14" fill="#F4FAF7" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="40" y="120" width="400" height="560" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="152" font-size="18" font-weight="bold" fill="#1a1a1a">SIGNAL SOURCES</text>
+  <text x="70" y="174" font-size="14" fill="#7E8B82">free with the platform — enable on day one</text>
+  <g font-size="14" fill="#2F3D36">
+    <rect x="70" y="196" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="222" text-anchor="middle" font-weight="bold">System tables</text>
+    <text x="240" y="244" text-anchor="middle" font-size="12" fill="#64756C">query.history · billing.usage</text>
+    <text x="240" y="262" text-anchor="middle" font-size="12" fill="#64756C">lakeflow · access.audit</text>
+    <rect x="70" y="288" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="314" text-anchor="middle" font-weight="bold">Lakehouse Monitoring</text>
+    <text x="240" y="336" text-anchor="middle" font-size="12" fill="#64756C">auto profiling: nulls, distributions</text>
+    <text x="240" y="354" text-anchor="middle" font-size="12" fill="#64756C">drift vs 7-day baseline</text>
+    <rect x="70" y="380" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="406" text-anchor="middle" font-weight="bold">Pipeline events</text>
+    <text x="240" y="428" text-anchor="middle" font-size="12" fill="#64756C">DLT update health · job run status</text>
+    <text x="240" y="446" text-anchor="middle" font-size="12" fill="#64756C">expectation violation counts</text>
+    <rect x="70" y="472" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="498" text-anchor="middle" font-weight="bold">Table queries</text>
+    <text x="240" y="520" text-anchor="middle" font-size="12" fill="#64756C">MAX(event_time) per gold table</text>
+    <text x="240" y="538" text-anchor="middle" font-size="12" fill="#64756C">row counts vs trailing median</text>
+    <rect x="70" y="564" width="340" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="590" text-anchor="middle" font-weight="bold">Cost signals</text>
+    <text x="240" y="612" text-anchor="middle" font-size="12" fill="#64756C">DBU burn by tag · budget trajectory</text>
+  </g>
+
+  <!-- Three signal lanes -->
+  <rect x="490" y="120" width="400" height="170" rx="14" fill="#E9F7F0" stroke="#0FA968" stroke-width="2"/>
+  <rect x="490" y="120" width="400" height="170" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="520" y="152" font-size="18" font-weight="bold" fill="#0FA968">1 · FRESHNESS</text>
+  <text x="520" y="174" font-size="14" fill="#7E8B82">highest value — build first</text>
+  <g font-size="14" fill="#2F3D36">
+    <text x="520" y="206">"gold.orders never more than</text>
+    <text x="520" y="228">2h stale, 99.5% of days"</text>
+    <text x="520" y="254" font-size="13" fill="#43544B">SQL alert on MAX(event_time)</text>
+    <text x="520" y="276" font-size="13" fill="#43544B">per critical table</text>
+  </g>
+
+  <rect x="490" y="310" width="400" height="170" rx="14" fill="#FAF0D7" stroke="#C49A1F" stroke-width="2"/>
+  <rect x="490" y="310" width="400" height="170" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="520" y="342" font-size="18" font-weight="bold" fill="#8F6E14">2 · QUALITY</text>
+  <text x="520" y="364" font-size="14" fill="#7E8B82">is the data sane?</text>
+  <g font-size="14" fill="#2F3D36">
+    <text x="520" y="396">row-count bounds, null rates,</text>
+    <text x="520" y="418">distribution drift alerts</text>
+    <text x="520" y="444" font-size="13" fill="#43544B">Lakehouse Monitoring metric tables</text>
+    <text x="520" y="466" font-size="13" fill="#43544B">catches what nobody defined rules for</text>
+  </g>
+
+  <rect x="490" y="500" width="400" height="180" rx="14" fill="#E6F5F3" stroke="#0E8F8C" stroke-width="2"/>
+  <rect x="490" y="500" width="400" height="180" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="520" y="532" font-size="18" font-weight="bold" fill="#0E8F8C">3 · PIPELINE HEALTH</text>
+  <text x="520" y="554" font-size="14" fill="#7E8B82">least valuable alone</text>
+  <g font-size="14" fill="#2F3D36">
+    <text x="520" y="586">job run status, DLT update duration,</text>
+    <text x="520" y="608">expectation violation trends</text>
+    <text x="520" y="634" font-size="13" fill="#43544B">platform-team dashboard — separate</text>
+    <text x="520" y="656" font-size="13" fill="#43544B">from business-impact alerts</text>
+  </g>
+
+  <!-- Alerts + response -->
+  <rect x="940" y="120" width="420" height="560" rx="14" fill="#F4FAF7" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="940" y="120" width="420" height="560" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="970" y="152" font-size="18" font-weight="bold" fill="#1a1a1a">ALERT &amp; RESPONSE</text>
+  <text x="970" y="174" font-size="14" fill="#7E8B82">alert on business impact, not noise</text>
+  <g font-size="14" fill="#2F3D36">
+    <rect x="970" y="196" width="360" height="86" rx="10" fill="#FFFFFF" stroke="#0FA968" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1150" y="222" text-anchor="middle" font-weight="bold">Page a human</text>
+    <text x="1150" y="244" text-anchor="middle" font-size="12" fill="#64756C">PagerDuty — stale gold, SLO breach</text>
+    <text x="1150" y="262" text-anchor="middle" font-size="12" fill="#64756C">critical expectation failure</text>
+    <rect x="970" y="298" width="360" height="86" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1150" y="324" text-anchor="middle" font-weight="bold">Notify the channel</text>
+    <text x="1150" y="346" text-anchor="middle" font-size="12" fill="#64756C">Slack — quality drift, cost anomalies</text>
+    <text x="1150" y="364" text-anchor="middle" font-size="12" fill="#64756C">things a human should see, not now</text>
+    <rect x="970" y="400" width="360" height="86" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1150" y="426" text-anchor="middle" font-weight="bold">Dashboard it</text>
+    <text x="1150" y="448" text-anchor="middle" font-size="12" fill="#64756C">transient failures, retry counts</text>
+    <text x="1150" y="466" text-anchor="middle" font-size="12" fill="#64756C">"wait and see" is not an alert</text>
+    <rect x="970" y="502" width="360" height="146" rx="10" fill="#E9F7F0" stroke="#0B6B4F"/>
+    <rect x="970" y="502" width="360" height="146" rx="10" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="1150" y="528" text-anchor="middle" font-weight="bold" fill="#0B6B4F">Every alert links a runbook</text>
+    <text x="1150" y="552" text-anchor="middle" font-size="12" fill="#64756C">which upstream stage to check</text>
+    <text x="1150" y="574" text-anchor="middle" font-size="12" fill="#64756C">source vs code triage steps</text>
+    <text x="1150" y="596" text-anchor="middle" font-size="12" fill="#64756C">rollback: redeploy + rebuild from bronze</text>
+    <text x="1150" y="624" text-anchor="middle" font-size="12" fill="#64756C">an alert without a runbook is anxiety</text>
+  </g>
+
+  <!-- arrows sources -> lanes -->
+  <line x1="440" y1="230" x2="485" y2="205" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="440" y1="400" x2="485" y2="395" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="440" y1="560" x2="485" y2="590" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- lanes -> alerts -->
+  <line x1="890" y1="205" x2="935" y2="230" stroke="#43544B" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <line x1="890" y1="395" x2="935" y2="340" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="890" y1="590" x2="935" y2="440" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- SLO footer -->
+  <rect x="40" y="720" width="1320" height="160" rx="14" fill="#DFF0EC" stroke="#93A39A" stroke-width="2"/>
+  <rect x="40" y="720" width="1320" height="160" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="754" font-size="18" font-weight="bold" fill="#0A3527">DATA SLOs — WRITE THEM DOWN</text>
+  <g font-size="15" fill="#2F3D36">
+    <text x="70" y="788">Freshness: "gold.orders never &gt; 2h stale, 99.5% of days" · Completeness: "row counts within ±10% of 7-day median"</text>
+    <text x="70" y="812">Correctness: "zero critical expectation violations/week"</text>
+    <text x="70" y="838" font-size="14" fill="#43544B">Review monthly with stakeholders. Nobody will sign an SLO for a table nobody uses — that's useful information.</text>
+    <text x="70" y="862" font-size="14" fill="#43544B">Northwind result: mean-time-to-detect went from "whenever someone looks" (days) to under 30 minutes.</text>
+  </g>
+</svg>

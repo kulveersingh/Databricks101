@@ -1,0 +1,48 @@
+# Blog 11 — Databricks Asset Bundles: Infrastructure as Code Done Right
+# Exercise 2: Per-target variables
+# Requires: All three exercises run locally — a project directory, YAML files, and a Python checker. No workspace needed.
+
+variables:
+  catalog:
+    description: Unity Catalog catalog for this environment
+  alert_email:
+    description: Who gets paged when the job fails
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dev-workspace.cloud.databricks.com
+    variables:
+      catalog: dev_catalog
+      alert_email: priya@loopcart.example
+  staging:
+    mode: development
+    workspace:
+      host: https://staging-workspace.cloud.databricks.com
+    variables:
+      catalog: staging_catalog
+      alert_email: data-team@loopcart.example
+  prod:
+    mode: production
+    workspace:
+      host: https://prod-workspace.cloud.databricks.com
+    variables:
+      catalog: prod_catalog
+      alert_email: data-oncall@loopcart.example
+# --- next ---
+
+resources:
+  jobs:
+    nightly_returns:
+      name: "[${bundle.target}] nightly-returns"
+      tasks:
+        - task_key: run_returns
+          notebook_task:
+            notebook_path: ./src/returns_pipeline.py
+            base_parameters:
+              catalog: "${var.catalog}"
+      notifications:
+        on_failure:
+          - "${var.alert_email}"

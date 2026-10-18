@@ -1,0 +1,8 @@
+{
+  "name": "[prod] orders-dlt",
+  "schedule": {
+    "quartz_cron_expression": "0 30 3 * * ?",
+    "timezone_id": "America/New_York"
+  },
+  "notifications": {"on_failure": []}
+}

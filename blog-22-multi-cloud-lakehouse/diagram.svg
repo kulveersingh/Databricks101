@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" font-family="DejaVu Sans, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#43544B"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0FA968"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#0E8F8C"/>
+    </marker>
+  <pattern id="ks-pinstripe" width="9" height="9" patternUnits="userSpaceOnUse">
+    <path d="M0,9 L9,0" stroke="#0A3527" stroke-width="1.4" stroke-opacity="0.055"/>
+  </pattern>
+  <pattern id="ks-dotgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+    <circle cx="3" cy="3" r="1.7" fill="#0A3527" fill-opacity="0.07"/>
+  </pattern>
+  <filter id="ks-card-shadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0A3527" flood-opacity="0.14"/>
+  </filter>
+</defs>
+
+  <rect x="0" y="0" width="1400" height="1000" fill="#FFFFFF"/>
+
+  <text x="700" y="52" text-anchor="middle" font-size="34" font-weight="bold" fill="#1a1a1a">Multi-Cloud Lakehouse Topology</text>
+  <rect x="640.0" y="68.0" width="120" height="6" rx="3" fill="#C49A1F" data-ks="title-rule"/><text x="700" y="82" text-anchor="middle" font-size="17" fill="#5A6A60">One Unity Catalog governing AWS prod, Azure DR, and GCP analytics</text>
+
+  <!-- Unity Catalog banner -->
+  <rect x="40" y="110" width="1320" height="80" rx="12" fill="#E9F7F0" stroke="#0FA968" stroke-width="2"/>
+  <rect x="40" y="110" width="1320" height="80" rx="12" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="700" y="142" text-anchor="middle" font-size="18" font-weight="bold" fill="#0FA968">UNITY CATALOG — one governance layer across clouds</text>
+  <text x="700" y="168" text-anchor="middle" font-size="14" fill="#64756C">shared schemas · grants · lineage · audit — per-jurisdiction catalogs for residency</text>
+  <line x1="300" y1="190" x2="300" y2="226" stroke="#0FA968" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <line x1="700" y1="190" x2="700" y2="226" stroke="#0FA968" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <line x1="1100" y1="190" x2="1100" y2="226" stroke="#0FA968" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- AWS prod -->
+  <rect x="40" y="230" width="400" height="360" rx="14" fill="#FAF0D7" stroke="#C49A1F" stroke-width="2"/>
+  <rect x="40" y="230" width="400" height="360" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="262" font-size="18" font-weight="bold" fill="#8F6E14">AWS us-east-1 — PROD</text>
+  <text x="70" y="284" font-size="14" fill="#7E8B82">Primary · full lakehouse</text>
+  <g font-size="14" fill="#2F3D36">
+    <rect x="70" y="300" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="334" text-anchor="middle">S3 — Delta tables (bronze→gold)</text>
+    <rect x="70" y="368" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="402" text-anchor="middle">DLT pipelines · ML · BI</text>
+    <rect x="70" y="436" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="240" y="470" text-anchor="middle">Model Serving endpoints</text>
+    <rect x="70" y="504" width="340" height="56" rx="10" fill="#F4FAF7" stroke="#0FA968"/>
+    <text x="240" y="538" text-anchor="middle" font-weight="bold" fill="#0FA968">● live traffic</text>
+  </g>
+
+  <!-- Azure DR -->
+  <rect x="500" y="230" width="400" height="360" rx="14" fill="#F0FAF8" stroke="#0E8F8C" stroke-width="2"/>
+  <rect x="500" y="230" width="400" height="360" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="530" y="262" font-size="18" font-weight="bold" fill="#0E8F8C">AZURE East US — DR</text>
+  <text x="530" y="284" font-size="14" fill="#7E8B82">Warm standby · RTO 4 hours</text>
+  <g font-size="14" fill="#2F3D36">
+    <rect x="530" y="300" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="700" y="334" text-anchor="middle">ADLS — replicated silver + gold</text>
+    <rect x="530" y="368" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="700" y="402" text-anchor="middle">catalog metadata synced hourly</text>
+    <rect x="530" y="436" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="700" y="470" text-anchor="middle">clusters as code (bundles)</text>
+    <rect x="530" y="504" width="340" height="56" rx="10" fill="#FAF0D7" stroke="#8F6E14"/>
+    <text x="700" y="538" text-anchor="middle" font-weight="bold" fill="#8F6E14">◐ standby · game-day quarterly</text>
+  </g>
+
+  <!-- GCP -->
+  <rect x="960" y="230" width="400" height="360" rx="14" fill="#F0FAF8" stroke="#0B6E6B" stroke-width="2"/>
+  <rect x="960" y="230" width="400" height="360" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="990" y="262" font-size="18" font-weight="bold" fill="#0B6E6B">GCP — ANALYTICS</text>
+  <text x="990" y="284" font-size="14" fill="#7E8B82">Sandbox · no copies</text>
+  <g font-size="14" fill="#2F3D36">
+    <rect x="990" y="300" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1160" y="334" text-anchor="middle">reads via Delta Sharing</text>
+    <rect x="990" y="368" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1160" y="402" text-anchor="middle">ML prototyping</text>
+    <rect x="990" y="436" width="340" height="56" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1160" y="470" text-anchor="middle">same UC grants apply</text>
+    <rect x="990" y="504" width="340" height="56" rx="10" fill="#F4FAF7" stroke="#0FA968"/>
+    <text x="1160" y="538" text-anchor="middle" font-weight="bold" fill="#0FA968">● active · governed reads</text>
+  </g>
+
+  <!-- Cross-cloud arrows -->
+  <line x1="440" y1="360" x2="496" y2="360" stroke="#0E8F8C" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <text x="468" y="348" text-anchor="middle" font-size="12" fill="#0E8F8C">replicate</text>
+  <line x1="900" y1="420" x2="956" y2="400" stroke="#0B6E6B" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="928" y="392" text-anchor="middle" font-size="12" fill="#0B6E6B">Delta Sharing</text>
+
+  <!-- Failover runbook -->
+  <rect x="40" y="620" width="1320" height="150" rx="14" fill="#F4FAF7" stroke="#B9C7BE" stroke-width="2"/>
+  <rect x="40" y="620" width="1320" height="150" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="652" font-size="18" font-weight="bold" fill="#43544B">FAILOVER RUNBOOK — in this order</text>
+  <g font-size="14" fill="#2F3D36">
+    <rect x="70" y="668" width="290" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="215" y="696" text-anchor="middle" font-weight="bold">1 · Verify replica</text>
+    <text x="215" y="718" text-anchor="middle" font-size="12" fill="#64756C">check Delta log version</text>
+    <rect x="390" y="668" width="290" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="535" y="696" text-anchor="middle" font-weight="bold">2 · Sync catalog</text>
+    <text x="535" y="718" text-anchor="middle" font-size="12" fill="#64756C">schemas · grants · lineage</text>
+    <rect x="710" y="668" width="290" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="855" y="696" text-anchor="middle" font-weight="bold">3 · Spin up compute</text>
+    <text x="855" y="718" text-anchor="middle" font-size="12" fill="#64756C">bundle deploy in DR workspace</text>
+    <rect x="1030" y="668" width="300" height="76" rx="10" fill="#FFFFFF" stroke="#D5E0D9" filter="url(#ks-card-shadow)" data-ks="card"/>
+    <text x="1180" y="696" text-anchor="middle" font-weight="bold">4 · Flip traffic</text>
+    <text x="1180" y="718" text-anchor="middle" font-size="12" fill="#64756C">DNS / connection strings</text>
+  </g>
+  <line x1="360" y1="706" x2="386" y2="706" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="680" y1="706" x2="706" y2="706" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1000" y1="706" x2="1026" y2="706" stroke="#43544B" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Best practices -->
+  <rect x="40" y="800" width="1320" height="160" rx="14" fill="#E9F7F0" stroke="#0FA968" stroke-width="2"/>
+  <rect x="40" y="800" width="1320" height="160" rx="14" fill="url(#ks-pinstripe)" data-ks="texture" pointer-events="none"/><text x="70" y="832" font-size="18" font-weight="bold" fill="#0FA968">BEST PRACTICES</text>
+  <g font-size="14" fill="#2F3D36">
+    <text x="70" y="864">• <tspan font-weight="bold">Residency in the catalog:</tspan> separate catalogs per jurisdiction (eu_customers, us_customers) — grants prove compliance, policies don't.</text>
+    <text x="70" y="892">• <tspan font-weight="bold">Egress costs:</tspan> keep heavy compute next to the data; prefer Delta Sharing over bulk copies; cost-alert every cross-cloud flow.</text>
+    <text x="70" y="920">• <tspan font-weight="bold">Standardize, then distribute:</tspan> one set of Asset Bundles, one CI/CD pipeline, one naming convention — deployed to N clouds.</text>
+  </g>
+</svg>
