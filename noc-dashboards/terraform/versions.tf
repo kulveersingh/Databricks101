@@ -1,5 +1,5 @@
 # Shared provider requirements. Each env root (terraform/envs/*) repeats this block;
-# keep the three in sync. Pin versions in production.
+# keep the five in sync. Pin versions in production.
 terraform {
   required_version = ">= 1.5"
 
@@ -15,6 +15,15 @@ terraform {
     # https://registry.terraform.io/providers/databricks/databricks
     databricks = {
       source = "databricks/databricks"
+    }
+    # https://registry.terraform.io/providers/newrelic/newrelic
+    newrelic = {
+      source = "newrelic/newrelic"
+    }
+    # https://registry.terraform.io/providers/splunk/splunk
+    # Community provider — pin a release and verify resource schemas.
+    splunk = {
+      source = "splunk/splunk"
     }
   }
 }

@@ -55,3 +55,15 @@ variable "enable_datadog" {
   default     = true
   description = "Create Datadog dashboards and monitors."
 }
+
+variable "enable_newrelic" {
+  type        = bool
+  default     = true
+  description = "Create New Relic dashboards, alert policies/conditions and notification routing."
+}
+
+variable "enable_splunk" {
+  type        = bool
+  default     = true
+  description = "Create Splunk dashboards and saved-search alerts."
+}

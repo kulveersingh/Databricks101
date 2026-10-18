@@ -20,4 +20,25 @@ locals {
   }
 
   monitor_name_prefix = "${var.environment}-databricks"
+
+  # Business criticality -> New Relic condition tier. NRQL conditions only
+  # have critical/warning blocks; P3-P5 use warning with longer evaluation
+  # windows so they ticket instead of page.
+  nr_tier = {
+    P1 = "critical"
+    P2 = "critical"
+    P3 = "warning"
+    P4 = "warning"
+    P5 = "warning"
+  }
+
+  # Business criticality -> Splunk alert severity
+  # (1=DEBUG, 2=INFO, 3=WARN, 4=ERROR, 5=SEVERE, 6=FATAL).
+  splunk_severity = {
+    P1 = 5
+    P2 = 4
+    P3 = 3
+    P4 = 2
+    P5 = 1
+  }
 }

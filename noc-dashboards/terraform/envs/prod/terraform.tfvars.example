@@ -17,3 +17,15 @@ fraud_notebook_path = "/Repos/prod/fraud-detection/score"
 
 enable_dynatrace = true
 enable_datadog   = true
+enable_newrelic  = true
+enable_splunk    = true
+
+# New Relic account ID (also set NEW_RELIC_ACCOUNT_ID for the provider).
+newrelic_account_id = 0
+
+# PagerDuty Events API v2 integration key for New Relic P1/P2 pages; "" disables.
+pagerduty_integration_key = ""
+
+# Splunk app namespace and HEC index; defaults usually fine.
+splunk_app   = "databricks_noc"
+splunk_index = "databricks"

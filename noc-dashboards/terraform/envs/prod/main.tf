@@ -7,6 +7,8 @@
 #   DATABRICKS_HOST / DATABRICKS_TOKEN
 #   DYNATRACE_ENV_URL / DYNATRACE_API_TOKEN
 #   DD_API_KEY / DD_APP_KEY (+ DD_SITE)
+#   NEW_RELIC_API_KEY / NEW_RELIC_ACCOUNT_ID
+#   SPLUNK_HOST (+ SPLUNK_TOKEN or SPLUNK_USERNAME/SPLUNK_PASSWORD)
 
 terraform {
   required_version = ">= 1.5"
@@ -21,12 +23,20 @@ terraform {
     databricks = {
       source = "databricks/databricks"
     }
+    newrelic = {
+      source = "newrelic/newrelic"
+    }
+    splunk = {
+      source = "splunk/splunk"
+    }
   }
 }
 
 provider "databricks" {}
 provider "dynatrace" {}
 provider "datadog" {}
+provider "newrelic" {}
+provider "splunk" {}
 
 variable "databricks_webhook_ids" {
   type = object({
@@ -63,6 +73,40 @@ variable "enable_dynatrace" {
 variable "enable_datadog" {
   type    = bool
   default = true
+}
+
+variable "enable_newrelic" {
+  type    = bool
+  default = true
+}
+
+variable "enable_splunk" {
+  type    = bool
+  default = true
+}
+
+variable "newrelic_account_id" {
+  type        = number
+  description = "New Relic account ID. Also set NEW_RELIC_ACCOUNT_ID for the provider."
+}
+
+variable "pagerduty_integration_key" {
+  type        = string
+  sensitive   = true
+  default     = ""
+  description = "PagerDuty Events API v2 integration key for New Relic P1/P2 pages."
+}
+
+variable "splunk_app" {
+  type        = string
+  default     = "databricks_noc"
+  description = "Splunk app namespace for the NOC dashboard."
+}
+
+variable "splunk_index" {
+  type        = string
+  default     = "databricks"
+  description = "Splunk index receiving pipeline events via HEC."
 }
 
 locals {
@@ -104,6 +148,28 @@ module "databricks_jobs" {
   team                   = "platform"
 }
 
+module "newrelic" {
+  source                    = "../../modules/newrelic"
+  count                     = var.enable_newrelic ? 1 : 0
+  environment               = local.environment
+  account_id                = var.newrelic_account_id
+  pipelines                 = local.pipelines
+  runbook_base_url          = var.runbook_base_url
+  pagerduty_integration_key = var.pagerduty_integration_key
+  noc_webhook_url           = var.noc_webhook_url
+}
+
+module "splunk" {
+  source           = "../../modules/splunk"
+  count            = var.enable_splunk ? 1 : 0
+  environment      = local.environment
+  pipelines        = local.pipelines
+  runbook_base_url = var.runbook_base_url
+  splunk_app       = var.splunk_app
+  splunk_index     = var.splunk_index
+  noc_webhook_url  = var.noc_webhook_url
+}
+
 output "dynatrace_dashboard_id" {
   value       = var.enable_dynatrace ? module.dynatrace[0].dashboard_id : null
   description = "NOC dashboard ID in Dynatrace."
@@ -112,6 +178,21 @@ output "dynatrace_dashboard_id" {
 output "datadog_monitor_ids" {
   value       = var.enable_datadog ? module.datadog[0].monitor_ids : null
   description = "Datadog monitor IDs keyed by pipeline name."
+}
+
+output "newrelic_dashboard_guid" {
+  value       = var.enable_newrelic ? module.newrelic[0].dashboard_guid : null
+  description = "GUID of the NOC dashboard in New Relic."
+}
+
+output "newrelic_alert_policy_id" {
+  value       = var.enable_newrelic ? module.newrelic[0].alert_policy_id : null
+  description = "New Relic alert policy ID for Databricks pipelines."
+}
+
+output "splunk_dashboard_name" {
+  value       = var.enable_splunk ? module.splunk[0].dashboard_name : null
+  description = "NOC dashboard name in Splunk."
 }
 
 output "fraud_job_id" {

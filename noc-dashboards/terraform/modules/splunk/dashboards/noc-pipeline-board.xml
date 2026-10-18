@@ -1,0 +1,93 @@
+<form version="1.1" theme="dark">
+  <label>NOC &#8212; Databricks Pipeline Status</label>
+  <description>Databricks pipeline run status (running / failed / success) for the NOC. Events are written by scripts/emit-metrics.py via HEC (index=databricks, sourcetype=databricks:pipeline).</description>
+  <fieldset submitButton="false">
+    <input type="time" token="time" searchWhenChanged="true">
+      <label>Time range</label>
+      <default>
+        <earliest>-4h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Failed runs</title>
+        <search>
+          <query>index=databricks sourcetype=databricks:pipeline | stats sum(failed) AS failures | eval failures=coalesce(failures,0)</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="rangeValues">[0,1]</option>
+        <option name="rangeColors">["0x53a051","0xd93f3c"]</option>
+        <option name="useThousandSeparators">false</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Successful runs</title>
+        <search>
+          <query>index=databricks sourcetype=databricks:pipeline failed=0 | stats count AS successes | eval successes=coalesce(successes,0)</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="rangeValues">[0]</option>
+        <option name="rangeColors">["0x53a051"]</option>
+        <option name="useThousandSeparators">false</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Pipelines currently failing</title>
+        <search>
+          <query>index=databricks sourcetype=databricks:pipeline failed=1 | stats dc(pipeline) AS pipelines | eval pipelines=coalesce(pipelines,0)</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="rangeValues">[0,1]</option>
+        <option name="rangeColors">["0x53a051","0xd93f3c"]</option>
+        <option name="useThousandSeparators">false</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Run duration by pipeline</title>
+        <search>
+          <query>index=databricks sourcetype=databricks:pipeline | timechart avg(duration_sec) AS avg_duration by pipeline</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.axisTitleY.text">avg duration (sec)</option>
+        <option name="charting.legend.placement">bottom</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Latest status per pipeline</title>
+        <search>
+          <query>index=databricks sourcetype=databricks:pipeline | stats latest(_time) AS last_seen, latest(status) AS status, latest(run_id) AS run_id, latest(duration_sec) AS duration_sec, latest(criticality) AS criticality by pipeline | eval status=coalesce(status,"UNKNOWN") | sort - criticality, pipeline</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <option name="count">20</option>
+        <fields>pipeline,status,criticality,duration_sec,last_seen,run_id</fields>
+      </table>
+      <html>
+        <p>Deep link pattern: https://&lt;workspace-host&gt;/#job/&lt;job-id&gt;/runs/&lt;run-id&gt; (run_id column above).</p>
+      </html>
+    </panel>
+  </row>
+</form>
